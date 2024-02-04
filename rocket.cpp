@@ -43,7 +43,7 @@ int main() {
     collRocket.width = 40;
     collRocket.height = 50;
 
-    InitWindow(screenWidth, screenHeight, "Rocket!");
+    InitWindow(screenWidth, screenHeight, "RockinSpace!");
     SetTargetFPS(120);
 
     //image fixing
