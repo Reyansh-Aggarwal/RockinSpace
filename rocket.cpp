@@ -12,7 +12,7 @@ void clampi (float &cl, int min, int max){
 int main() {
 
   //intializing 
-  Vector2 rPos, rVel, dir;
+  Vector2 rPos, rVel, dir, camPos;
   dir.x = 1;
   dir.y = 1;
   int xrocket, yrocket, dist, objective;
@@ -26,10 +26,12 @@ int main() {
   Image cloudImg = LoadImage("assets/cloud.png");
   rPos.x = 460;
   rPos.y = 350;
+  camPos.x = rPos.x;
+  camPos.y = rPos.y;
 
   Camera2D cam = { 0 }; 
-  cam.target = {rPos.x, rPos.y};
-  cam.offset = {rPos.x , rPos.y};
+  cam.target = {camPos.x, camPos.y};
+  cam.offset = {camPos.x , camPos.y};
   cam.rotation = 0.0f;
   cam.zoom = 1.0f;
 
@@ -37,7 +39,7 @@ int main() {
   floor.x = 0;
   floor.y = 520;
   floor.width = 960;
-  floor.height = 20;
+  floor.height = 100;
     
   Rectangle collRocket;
   collRocket.width = 40;
@@ -87,11 +89,11 @@ int main() {
     DrawTexture(cloudTexture, 100, 0, WHITE);
 
     if (objective == 0){
-      DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), (rPos.y - 350) + 40, 20, PURPLE);
-      DrawText("Escape Earth's gravity by reaching distance 30+", 200, 270, 20, PURPLE);
+      DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), (rPos.y - 250) + 20, 20, PURPLE);
+      DrawText("Escape Earth's gravity by reaching distance 30+", 220, 270, 20, PURPLE);
     }
 
-    DrawFPS(rPos.x -460, rPos.y - 350); // fps 
+    DrawFPS(rPos.x -460, rPos.y - 250); // fps 
 
     //checking if obj complete
     // if (dist > 31){
@@ -100,6 +102,7 @@ int main() {
     //   objective = 1;//telling game to close 
     // }
     if (CheckCollisionRecs(collRocket, floor)){
+ 
 
       DrawText("Mission Failed", 390, 270, 20, RED);
       objective = 1; //telling game to close 
@@ -108,8 +111,8 @@ int main() {
     if (IsKeyDown(KEY_W)){
       dir.y = -1; 
       rVel.y -= 11;
-      cam.target = {rPos.x - 40, rPos.y - 50};
-      cam.offset = {rPos.x , rPos.y};
+      cam.target = {camPos.x, rPos.y};
+      //cam.offset = {camPos.x , rPos.y};
       DrawTexture(rTexture, rPos.x, rPos.y, WHITE);
     } else {
       dir.y = 1;
@@ -126,6 +129,10 @@ int main() {
     //calculating cVelocity and position
     rVel.y += dir.y * delta;
     rPos.y += rVel.y * delta;
+
+    cam.target = {camPos.x, rPos.y};
+    cam.offset = {rPos.x , screenHeight/2};
+
     
     if (objective == 1) {
       BeginDrawing();
