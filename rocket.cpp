@@ -89,11 +89,21 @@ int main() {
     DrawTexture(cloudTexture, 100, 0, WHITE);
 
     if (objective == 0){
-      DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), (rPos.y - 250) + 20, 20, PURPLE);
-      DrawText("Escape Earth's gravity by reaching distance 30+", 220, 270, 20, PURPLE);
-    }
 
-    DrawFPS(rPos.x -460, rPos.y - 250); // fps 
+      DrawText("Escape Earth's gravity by reaching distance 30+", 220, 270, 20, PURPLE);
+
+      if (rPos.y < 320){
+        DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), (rPos.y - 250) + 20, 20, PURPLE);
+        DrawText(TextFormat("Y: %d", yrocket), 0, (rPos.y - 270), 20, GREEN);
+        DrawFPS(rPos.x -460, rPos.y - 250); // fps
+      } 
+      else{
+        DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), 90, 20, PURPLE);
+        DrawText(TextFormat("Y: %d", yrocket), 0, 50, 20, GREEN);
+        DrawFPS(0, 70); // fps
+      }  
+
+    }
 
     //checking if obj complete
     // if (dist > 31){
@@ -111,8 +121,6 @@ int main() {
     if (IsKeyDown(KEY_W)){
       dir.y = -1; 
       rVel.y -= 11;
-      cam.target = {camPos.x, rPos.y};
-      //cam.offset = {camPos.x , rPos.y};
       DrawTexture(rTexture, rPos.x, rPos.y, WHITE);
     } else {
       dir.y = 1;
@@ -130,9 +138,12 @@ int main() {
     rVel.y += dir.y * delta;
     rPos.y += rVel.y * delta;
 
+  if (rPos.y < 320){
     cam.target = {camPos.x, rPos.y};
-    cam.offset = {rPos.x , screenHeight/2};
-
+  } else if (rPos.y > 320){
+    cam.target = {camPos.x, 320};
+  }
+  cam.offset = {rPos.x , screenHeight/2};
     
     if (objective == 1) {
       BeginDrawing();
