@@ -10,7 +10,6 @@ void clampi (float &cl, int min, int max){
 }
 
 int main() {
-
   //intializing 
   Vector2 rPos, rVel, dir, camPos;
   dir.x = 1;
@@ -94,12 +93,12 @@ int main() {
 
       if (rPos.y < 320){
         DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), (rPos.y - 250) + 20, 20, PURPLE);
-        DrawText(TextFormat("Y: %d", yrocket), 0, (rPos.y - 270), 20, GREEN);
+        // DrawText(TextFormat("Y: %d", yrocket), 0, (rPos.y - 270), 20, GREEN);
         DrawFPS(rPos.x -460, rPos.y - 250); // fps
       } 
       else{
         DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), 90, 20, PURPLE);
-        DrawText(TextFormat("Y: %d", yrocket), 0, 50, 20, GREEN);
+        // DrawText(TextFormat("Y: %d", yrocket), 0, 50, 20, GREEN);
         DrawFPS(0, 70); // fps
       }  
 
@@ -143,7 +142,7 @@ int main() {
   } else if (rPos.y > 320){
     cam.target = {camPos.x, 320};
   }
-  cam.offset = {rPos.x , screenHeight/2};
+  cam.offset = {rPos.x , (float)screenHeight/2};
     
     if (objective == 1) {
       BeginDrawing();
