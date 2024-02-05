@@ -4,5 +4,5 @@
 
 Texture loadTexture( const char* ImgPath, int width, int height); //taking img path, width and height if you wish to resize
 void clampi (float &cl, int min, int max);
-
+int cloudX();
 #endif

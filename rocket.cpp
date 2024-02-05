@@ -1,10 +1,10 @@
 #include <raylib.h>
 #include <spaceutils.h>
-
+#include <cstdlib>
 
 int main() {
   //intializing 
-  Vector2 rPos, rVel, dir, camPos;
+  Vector2 rPos, rVel, dir, camPos, cloudPos;
   dir.x = 1;
   dir.y = 1;
   int xrocket, yrocket, dist, objective;
@@ -17,6 +17,8 @@ int main() {
   rPos.y = 350;
   camPos.x = rPos.x;
   camPos.y = rPos.y;
+  cloudPos.x = cloudX();
+  cloudPos.y = 0;
 
   Camera2D cam = { 0 }; 
   cam.target = {camPos.x, camPos.y};
@@ -42,7 +44,6 @@ int main() {
   Texture2D rTexture = loadTexture("assets/rocket.png", 40, 50);
   Texture2D cloudTexture = loadTexture("assets/cloud.png", 104, 44);
 
-
   while (!WindowShouldClose()){
 
     //setting values before drawing
@@ -64,9 +65,13 @@ int main() {
     BeginMode2D(cam);
 
     DrawRectangleRec(floor, GREEN);
-    DrawTexture(rRestTexture, rPos.x, rPos.y,WHITE);
-    DrawTexture(cloudTexture, 100, 0, WHITE);
 
+    //drawing cloud
+    if (cloudPos.y > rPos.y - 310 && cloudPos.y < rPos.y + 300){  //only draws cloud when on screen
+    DrawTexture(cloudTexture, cloudPos.x, cloudPos.y, WHITE);
+    }
+
+    //drawing text
     if (objective == 0){
 
       DrawText("Escape Earth's gravity by reaching distance 30+", 220, 270, 20, PURPLE);
@@ -83,6 +88,13 @@ int main() {
       }  
 
     }
+
+    DrawTexture(rRestTexture, rPos.x, rPos.y,WHITE);
+
+
+
+    //moving cloud(s)
+    cloudPos.x += 20 * delta;
 
     //checking if obj complete
     // if (dist > 31){
@@ -122,7 +134,7 @@ int main() {
   } else if (rPos.y > 320){
     cam.target = {camPos.x, 320};
   }
-  
+
   cam.offset = {rPos.x , (float)screenHeight/2};
     
     if (objective == 1) {

@@ -1,5 +1,5 @@
 #include <raylib.h>
-
+#include <cstdlib>
 Texture loadTexture( const char* ImgPath, int width, int height){ 
   Image img = LoadImage(ImgPath);
   Image* point_img = &img;
@@ -15,4 +15,9 @@ void clampi (float &cl, int min, int max){
   else if(cl < min){
     cl = min;
   }
+}
+
+int cloudX (){
+  int posx =rand() % (856 + 1 - 0) + 0;
+  return posx;
 }
