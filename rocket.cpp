@@ -1,13 +1,6 @@
 #include <raylib.h>
+#include <spaceutils.h>
 
-void clampi (float &cl, int min, int max){
-  if (cl > max){
-    cl = max;
-  } 
-  else if(cl < min){
-    cl = min;
-  }
-}
 
 int main() {
   //intializing 
@@ -20,9 +13,6 @@ int main() {
   int screenWidth = 960;
   int screenHeight = 540;
   float grav = 0.98f;
-  Image rRestImg = LoadImage ("assets/rocket-rest2.png");
-  Image rImg = LoadImage ("assets/rocket.png");
-  Image cloudImg = LoadImage("assets/cloud.png");
   rPos.x = 460;
   rPos.y = 350;
   camPos.x = rPos.x;
@@ -47,21 +37,11 @@ int main() {
   InitWindow(screenWidth, screenHeight, "RockinSpace!");
   SetTargetFPS(120);
 
-  //image fixing
-  Image* point_rRestImg = &rRestImg;
-  Image* point_rImg = &rImg;
-  Image* point_cloud = &cloudImg;
-  Texture2D rRestTexture;
-  Texture2D rTexture;
-  Texture2D cloudTexture;
+  //loading textures
+  Texture2D rRestTexture = loadTexture("assets/rocket-rest2.png", 40, 50);
+  Texture2D rTexture = loadTexture("assets/rocket.png", 40, 50);
+  Texture2D cloudTexture = loadTexture("assets/cloud.png", 104, 44);
 
-  ImageResizeNN(point_rRestImg, 40, 50);
-  ImageResizeNN(point_rImg, 40, 50);
-  ImageResizeNN(point_cloud, 104, 44);
-
-  rRestTexture = LoadTextureFromImage(rRestImg);
-  rTexture = LoadTextureFromImage(rImg);
-  cloudTexture = LoadTextureFromImage(cloudImg);
 
   while (!WindowShouldClose()){
 
@@ -92,14 +72,14 @@ int main() {
       DrawText("Escape Earth's gravity by reaching distance 30+", 220, 270, 20, PURPLE);
 
       if (rPos.y < 320){
-        DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), (rPos.y - 250) + 20, 20, PURPLE);
+        DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), (rPos.y - 270) + 20, 20, PURPLE);
         // DrawText(TextFormat("Y: %d", yrocket), 0, (rPos.y - 270), 20, GREEN);
-        DrawFPS(rPos.x -460, rPos.y - 250); // fps
+        DrawFPS(rPos.x -460, rPos.y - 270); // fps
       } 
       else{
-        DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), 90, 20, PURPLE);
+        DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), 70, 20, PURPLE);
         // DrawText(TextFormat("Y: %d", yrocket), 0, 50, 20, GREEN);
-        DrawFPS(0, 70); // fps
+        DrawFPS(0, 50); // fps
       }  
 
     }
@@ -127,11 +107,11 @@ int main() {
 
     //applying grav
     if (inEarth){
-      rVel.y += grav;
+      rVel.y += grav * delta;
     }
 
     //applying grav
-    rVel.y += grav * delta;
+    //rVel.y += grav * delta;
             
     //calculating cVelocity and position
     rVel.y += dir.y * delta;
@@ -142,6 +122,7 @@ int main() {
   } else if (rPos.y > 320){
     cam.target = {camPos.x, 320};
   }
+  
   cam.offset = {rPos.x , (float)screenHeight/2};
     
     if (objective == 1) {
@@ -156,6 +137,7 @@ int main() {
     
     EndDrawing();
   }
+
   CloseWindow();
   return 0;
 }
