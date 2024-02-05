@@ -4,6 +4,7 @@
 
 int main() {
   //intializing 
+  Color lightBlue = Color{0, 118, 248, 255};
   Vector2 rPos, rVel, dir, camPos, cloudPos;
   dir.x = 1;
   dir.y = 1;
@@ -72,9 +73,18 @@ int main() {
     }
 
     //drawing text
+
+    if (CheckCollisionRecs(collRocket, floor)){
+ 
+
+      DrawText("Mission Failed", 390, 270, 20, RED);
+      objective = 1; //telling game to close 
+    }
+
     if (objective == 0){
 
-      DrawText("Escape Earth's gravity by reaching distance 30+", 220, 270, 20, PURPLE);
+      DrawText("Escape Earth's gravity by reaching distance 30+", 220, 270, 20, lightBlue);
+      DrawText("Press W on Keyboard OR Right Back Trigger/Up Arrow on Gamepad to Go UP", 100, 240, 20, lightBlue);
 
       if (rPos.y < 320){
         DrawText(TextFormat("Distance from Planet: %d", dist), (rPos.x -460), (rPos.y - 270) + 20, 20, PURPLE);
@@ -102,14 +112,8 @@ int main() {
     //   DrawText("Escaped Earth!", 400, 270, 20, GREEN);
     //   objective = 1;//telling game to close 
     // }
-    if (CheckCollisionRecs(collRocket, floor)){
- 
 
-      DrawText("Mission Failed", 390, 270, 20, RED);
-      objective = 1; //telling game to close 
-    }
-
-    if (IsKeyDown(KEY_W)){
+    if (IsKeyDown(KEY_W) || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP) || IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_TRIGGER_2)){
       dir.y = -1; 
       rVel.y -= 11;
       DrawTexture(rTexture, rPos.x, rPos.y, WHITE);
