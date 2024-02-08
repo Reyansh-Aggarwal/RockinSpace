@@ -1,5 +1,5 @@
-#include <raylib.h>
-#include <spaceutils.h>
+#include "raylib.h"
+#include"spaceutils.h"
 #include <cstdlib>
 #include <unistd.h>
 int main() {    
@@ -163,7 +163,7 @@ int main() {
     EndMode2D();
 
     //calculating tracker pos
-    DrawText(TextFormat("tracker.y =  %f", tracker.y),0, 100, 20, PURPLE); //debugging
+    DrawText(TextFormat("tracker.y =  %f %s", tracker.y, "for debugging only (line 166)"),0, 100, 20, PURPLE); //debugging
 
     //drawing gui
     DrawFPS(0, 30);
