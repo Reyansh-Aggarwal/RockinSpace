@@ -1,9 +1,14 @@
 #include <raylib.h>
 #include <cstdlib>
 Texture loadTexture( const char* ImgPath, int width, int height){ 
+
   Image img = LoadImage(ImgPath);
+
+  if (!width == 0 && !height == 0){
   Image* point_img = &img;
   ImageResizeNN(point_img, width, height);
+  }
+
   Texture texture = LoadTextureFromImage(img);
   return texture;
 }
